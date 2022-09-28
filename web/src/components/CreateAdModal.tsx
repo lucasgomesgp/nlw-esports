@@ -5,7 +5,7 @@ import { Check, GameController } from "phosphor-react";
 import { Input } from "./Form/Input";
 import { FormEvent, useEffect, useState } from "react";
 import axios from "axios";
-
+import "./styles.css";
 interface Game {
   id: string;
   bannerUrl: string;
@@ -54,7 +54,7 @@ export function CreateAdModal() {
     <Dialog.Portal>
       <Dialog.Overlay className="bg-black/60 inset-0 fixed" />
 
-      <Dialog.Content className="fixed bg-[#2A2632] py-8 px-10 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg w-[480px] shadow-black/25">
+      <Dialog.Content className="customBar fixed bg-[#2A2632] py-8 px-10 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg max-w-[480px] shadow-black/25 max-h-[98%] ">
         <Dialog.Title className="text-3xl font-black">
           Publique um anúncio
         </Dialog.Title>
