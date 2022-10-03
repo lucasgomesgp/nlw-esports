@@ -10,9 +10,13 @@ module.exports = {
         "game-gradient":
           "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.9) 67.08%)",
       },
-      fontFamily:{
-        sans: ["Inter", "sans-serif"]
-      }
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+      },
+      screens: {
+        tablet: { "max": "780px" },
+        small: {"max": "425px"},
+      },
     },
   },
   plugins: [],

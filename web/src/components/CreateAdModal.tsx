@@ -1,11 +1,13 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import * as ToggleGroup from "@radix-ui/react-toggle-group";
-import { Check, GameController } from "phosphor-react";
+import * as Select from "@radix-ui/react-select";
+import { CaretDown, CaretUp, Check, GameController } from "phosphor-react";
 import { Input } from "./Form/Input";
 import { FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import "./styles.css";
+import { Label } from "@radix-ui/react-label";
 interface Game {
   id: string;
   bannerUrl: string;
@@ -25,7 +27,6 @@ export function CreateAdModal() {
     const formData = new FormData(event.target as HTMLFormElement);
     const data = Object.fromEntries(formData);
 
-    //Falta validação
     if (!data.name) {
       return;
     }
@@ -54,30 +55,69 @@ export function CreateAdModal() {
     <Dialog.Portal>
       <Dialog.Overlay className="bg-black/60 inset-0 fixed" />
 
-      <Dialog.Content className="customBar fixed bg-[#2A2632] py-8 px-10 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg max-w-[480px] shadow-black/25 max-h-[98%] ">
+      <Dialog.Content className="customBar fixed bg-[#2A2632] py-8 px-10 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg max-w-[480px] shadow-black/25 max-h-[98%]  ">
         <Dialog.Title className="text-3xl font-black">
           Publique um anúncio
         </Dialog.Title>
 
-        <form className="flex flex-col gap-4 mt-8" onSubmit={handleCreateAd}>
+        <form className="flex flex-col gap-4 mt-8 " onSubmit={handleCreateAd}>
           <div className="flex flex-col gap-2">
-            <label htmlFor="game" className="font-semibold">
+            <Label htmlFor="game" className="font-semibold">
               Qual o game?
-            </label>
-            <select
-              id="game"
-              name="game"
-              className="bg-zinc-900 py-3 px-4 rounded text-sm placeholder:text-zinc-500 appearance-none"
-            >
-              <option disabled defaultValue="">
-                Selecione o game que deseja jogar
-              </option>
-              {games.map((game) => (
-                <option key={game.id} value={game.id}>
-                  {game.title}
-                </option>
-              ))}
-            </select>
+            </Label>
+            <div className="flex w-full">
+              <Select.Root dir="ltr" name="game">
+                <Select.Trigger
+                  aria-label="Game"
+                  id="game"
+                  className="inline-flex items-center box-border justify-between w-full bg-zinc-900 py-3 px-4 gap-5 rounded appearance-none text-sm text-zinc-500"
+                >
+                  <Select.Value placeholder="Selecione o game que deseja jogar" />
+                  <Select.Icon className="right-0">
+                    <CaretDown size={24} className="text-zinc-400" />
+                  </Select.Icon>
+                </Select.Trigger>
+
+                <Select.Portal>
+                  <Select.Content className="overflow-hidden rounded-xl">
+                    <Select.ScrollUpButton className="flex items-center justify-center">
+                      <CaretUp size={24} className="text-zinc-400" />
+                    </Select.ScrollUpButton>
+                    <Select.Viewport>
+                      <Select.Group>
+                        <Select.Item
+                          value=""
+                          disabled
+                          className="flex items-center bg-zinc-900 text-zinc-500 w-full py-2 h-10"
+                          >
+                          <Select.ItemText title="Selecione o game que deseja jogar" />
+                          <Select.ItemIndicator>
+                            <Check size={24} className="text-zinc-400" />
+                          </Select.ItemIndicator>
+                        </Select.Item>
+                        {games.map((game) => (
+                          <Select.Item
+                          key={game.id}
+                          value={game.id}
+                          className="relative flex items-center cursor-pointer justify-center bg-zinc-900 text-zinc-500 w-full py-2 h-10"
+                          >
+                            <Select.ItemText className="text-zinc-500">
+                              {game.title}
+                            </Select.ItemText>
+                            <Select.ItemIndicator className="absolute right-0 w-20">
+                              <Check size={24} className="text-zinc-400" />
+                            </Select.ItemIndicator>
+                          </Select.Item>
+                        ))}
+                      </Select.Group>
+                    </Select.Viewport>
+                    <Select.ScrollDownButton className="flex items-center justify-center">
+                      <CaretDown size={24} className="text-zinc-400" />
+                    </Select.ScrollDownButton>
+                  </Select.Content>
+                </Select.Portal>
+              </Select.Root>
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="name">Seu nome (ou nickname)</label>
